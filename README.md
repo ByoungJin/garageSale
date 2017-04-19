@@ -1,6 +1,6 @@
 ## Foot Print
-헤로쿠와 연동되어 있음 : GitHub Commit > Heroku Build > Heroku Deployed(배포)
-배포 WebPage : https://twinklefootprint.herokuapp.com/login
+- **헤로쿠와 연동되어 있음 :** GitHub Commit > Heroku Build > Heroku Deployed(배포)
+- **배포 WebPage :** https://twinklefootprint.herokuapp.com/login
 
 
 
