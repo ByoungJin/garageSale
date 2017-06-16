@@ -48,7 +48,7 @@ angular.module('MyApp', ['ngRoute', 'satellizer'])
     });
     $authProvider.google({
       url: '/auth/google',
-      clientId: '631036554609-v5hm2amv4pvico3asfi97f54sc51ji4o.apps.googleusercontent.com'
+      clientId: '151952367835-dpuntqp9qjb7ubif4kh7amk622abcggp.apps.googleusercontent.com'
     });
 
     function skipIfAuthenticated($location, $auth) {

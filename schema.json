@@ -1,0 +1,87 @@
+/// [ 스키마 정리 문서 ]
+
+/// 내장되있는 것 : _id, _createDay, _modifyDay
+
+// User
+{
+  email : 'kbj7353@naver.com',  // index
+  name : '김병진',
+  password : '123456',
+  profilePicture : 'path',
+  setting : {
+    viewMode : 'list'
+  },
+  store : [
+    {
+      name : '싸고좋은가게',
+      address : '경기도 화성시 동탄동 어쩌구',
+      gps : [12,34,23], // index, GPS가 동일하면 안됨
+      discription : '신발, 마우스, 모니터 개싸게팜',
+      startDay : "2017-05-28 12:50:00",
+      endDay : "2017-08-14 11:11:00",
+      products : [ObjectID('Product1'), ObjectID('Product2')]
+      comments : [
+        {
+          userId : ObjectID('A1'),
+          content : '이거 정말 완소 템',
+          createDay : "2017-06-01 : 15:23:00"
+        }
+      ]
+    }
+  ],
+  favoriteStore : [ObjectID('Store1'),ObjectID('Store2')], // store가 여러개일때를 고려해서 식별하는 방법이 뭘까? 아니면 Store 따로 콜렉션 뺄까? > 일단 유저 아이디 기반으로.
+  favoriteProducts : [ObjectID('Product1'), ObjectID('Product2')]
+}
+
+// Products
+{
+  name : '맥북 프로 레디나 2017',
+  discription : '개발자라면 누구나 가지고 싶은 그 노트북'
+  categoryLevel1 : {
+    name : '컴퓨터',
+    picture : 'path'
+  },
+  categoryLevel2 : {
+    name : '노트북',
+    picture : 'path'
+  },
+  likeUsers : [ObjectID('User1'), ObjectID('User2')],
+  pictures : ['path1', 'path2'],
+  price : 2000000,
+  isSoldOut : false
+}
+
+// Message
+{
+  message : '이거 에누리 안되나요?',
+  sender : ObjectID('User1'),
+  receiver ObjectID('User2'):
+}
+
+// Category : 상품 등록 시에 카테고리 노출을 위한 콜렉션
+{
+  name : '컴퓨터', // index
+  picture : 'path',
+  childs : [
+    {
+      name : '노트북',
+      picture : 'path'
+    },
+    {
+      name : 'PC',
+      picture : 'path'
+    }
+  ]
+}
+
+// RecentSeenProduct  : 데이터가 너무 많아 질것 같아서 컬렉션으로 뺐음
+{
+  userId : ObjectID('User1'),
+  productId : ObjectID('Product1')
+}
+
+// RecentSeenStore  : 데이터가 너무 많아 질것 같아서 컬렉션으로 뺐음
+{
+  userId : ObjectID('User1'),
+  storeId : ObjectID('Store1')
+}
