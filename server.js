@@ -30,6 +30,8 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 app.set('port', process.env.PORT || 3000);
+
+// app.use(함수) : app 이 요청을 수신할 때마다 함수가 실행됨.
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -39,6 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
+  // 토큰 확인
   req.isAuthenticated = function() {
     var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
     try {
@@ -71,6 +74,7 @@ app.post('/auth/facebook', userController.authFacebook);
 app.get('/auth/facebook/callback', userController.authFacebookCallback);
 app.post('/auth/google', userController.authGoogle);
 app.get('/auth/google/callback', userController.authGoogleCallback);
+app.get('/auth/token', userController.ensureAuthenticated, userController.authToken);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));

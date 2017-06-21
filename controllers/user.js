@@ -27,6 +27,21 @@ exports.ensureAuthenticated = function(req, res, next) {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
+
+  /*
+  *
+  *
+  *
+  */
+  exports.authToken = function(req, res, next) {
+    var userToJson = req.user.toJSON();
+      res.send({
+          token: (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token,
+          user: userToJson
+      });
+  };
+
+
   /**
    * POST /login
    * Sign in with email and password
