@@ -62,6 +62,7 @@ app.use(function(req, res, next) {
   }
 });
 
+require('./routes/fcm')(app);
 app.post('/contact', contactController.contactPost);
 app.put('/account', userController.ensureAuthenticated, userController.accountPut);
 app.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
