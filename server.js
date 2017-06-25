@@ -75,7 +75,7 @@ app.post('/auth/facebook', userController.authFacebook);
 app.get('/auth/facebook/callback', userController.authFacebookCallback);
 app.post('/auth/google', userController.authGoogle);
 app.get('/auth/google/callback', userController.authGoogleCallback);
-app.get('/auth/token', userController.ensureAuthenticated, userController.authToken);
+app.post('/auth/token', userController.ensureAuthenticated, userController.authToken);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
