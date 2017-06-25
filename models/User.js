@@ -9,21 +9,42 @@ var schemaOptions = {
   }
 };
 
-var userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true},
-  password: String,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  gender: String,
-  location: String,
-  website: String,
-  picture: String,
-  facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  vk: String
+var planet;
+planet = new mongoose.Schema({
+    name : String,
+    address : String,
+    gps : [Number],
+    description : String,
+    startDay : Date,
+    endDay : Date,
+    products : [mongoose.SchemaTypes.ObjectId],
+    comments : [{
+        userId : mongoose.SchemaTypes.ObjectId,
+        contents : String,
+        createDay : String
+    }]
+});
+
+var userSchema;
+userSchema = new mongoose.Schema({
+    name: String,
+    email: {type: String, unique: true},
+    password: String,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    gender: String,
+    location: String,
+    website: String,
+    picture: String,
+    facebook: String,
+    twitter: String,
+    google: String,
+    github: String,
+    vk: String,
+    planets : [planet],
+    favoritePlanet : [mongoose.SchemaTypes.ObjectId],
+    favoriteProducts : [mongoose.SchemaTypes.ObjectId]
+
 }, schemaOptions);
 
 userSchema.pre('save', function(next) {

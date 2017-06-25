@@ -29,8 +29,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 };
 
   /*
-  *
-  *
+  * POST /login By Token
   *
   */
   exports.authToken = function(req, res, next) {
