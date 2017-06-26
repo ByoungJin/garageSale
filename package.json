@@ -2,6 +2,8 @@
   "name": "rough-bonus",
   "version": "1.0.0",
   "description": "My app description",
+  "license": "MIT",
+  "repository": "https://github.com/ByoungJin/garageSaleServer.git",
   "scripts": {
     "build": "gulp build",
     "build:production": "gulp build --production",
@@ -41,7 +43,8 @@
     "request": "^2.69.0",
     "vinyl-buffer": "^1.0.0",
     "yargs": "^4.3.2",
-    "fcm-node" : "1.2.0"
+    "fcm-node" : "1.2.0",
+    "requirejs" : "2.3.3"
   },
   "devDependencies": {
     "jasmine": "^2.4.1",
