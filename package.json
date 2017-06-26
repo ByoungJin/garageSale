@@ -40,7 +40,8 @@
     "nodemailer": "^2.3.0",
     "request": "^2.69.0",
     "vinyl-buffer": "^1.0.0",
-    "yargs": "^4.3.2"
+    "yargs": "^4.3.2",
+    "fcm-node" : "1.2.0"
   },
   "devDependencies": {
     "jasmine": "^2.4.1",
