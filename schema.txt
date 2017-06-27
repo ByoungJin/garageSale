@@ -15,7 +15,8 @@
     {
       name : '싸고좋은가게',
       address : '경기도 화성시 동탄동 어쩌구',
-      gps : [12,34,23], // index, GPS가 동일하면 안됨
+      latitude : 12,
+      longitude : 34,
       description : '신발, 마우스, 모니터 개싸게팜',
       startDay : "2017-05-28 12:50:00",
       endDay : "2017-08-14 11:11:00",

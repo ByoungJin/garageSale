@@ -13,6 +13,9 @@ exports.planetCreate = function(req, res, next){
     var planet = new Planet();
 
     planet.name = req.body.name;
+    planet.address = req.body.address;
+    planet.latitude = req.body.latitude;
+    planet.longitude = req.body.longitude;
     planet.description = req.body.description;
     planet.startDay = new Date(req.body.startDay);
     planet.endDay = new Date(req.body.endDay);

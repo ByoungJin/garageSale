@@ -11,7 +11,8 @@ var planetSchema;
 planetSchema = new mongoose.Schema({
     name : {type: String, unique: true},
     address : String,
-    gps : [Number],
+    latitude: Number,
+    longitude: Number,
     description : String,
     startDay : Date,
     endDay : Date,
