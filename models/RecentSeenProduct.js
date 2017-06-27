@@ -7,11 +7,12 @@ var schemaOptions = {
     }
 };
 
-var recentSeenProduct;
-recentSeenProduct = new mongoose.Schema({
+var recentSeenProductSchema;
+recentSeenProductSchema = new mongoose.Schema({
     userId : mongoose.SchemaTypes.ObjectId,
     productId : mongoose.SchemaTypes.ObjectId
 }, schemaOptions);
 
+var RecentSeenProduct = mongoose.model('User', recentSeenProductSchema);
 
-
+module.exports = RecentSeenProduct;

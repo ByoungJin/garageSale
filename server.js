@@ -62,6 +62,7 @@ app.use(function(req, res, next) {
 require('./routes/fcm')(app);
 require('./routes/user')(app);
 require('./routes/contact')(app);
+require('./routes/planet.js')(app);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));

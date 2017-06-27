@@ -7,8 +7,8 @@ var schemaOptions = {
     }
 };
 
-var category;
-category = new mongoose.Schema({
+var categorySchema;
+categorySchema = new mongoose.Schema({
     name : String,
     picture : String,
 
@@ -18,5 +18,6 @@ category = new mongoose.Schema({
     }]
 }, schemaOptions);
 
+var Category = mongoose.model('Category', categorySchema);
 
-
+module.exports = Category;

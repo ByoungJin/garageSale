@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
+var planet = require('./Planet');
 
 var schemaOptions = {
   timestamps: true,
@@ -8,22 +9,6 @@ var schemaOptions = {
     virtuals: true
   }
 };
-
-var planet;
-planet = new mongoose.Schema({
-    name : String,
-    address : String,
-    gps : [Number],
-    description : String,
-    startDay : Date,
-    endDay : Date,
-    products : [mongoose.SchemaTypes.ObjectId],
-    comments : [{
-        userId : mongoose.SchemaTypes.ObjectId,
-        contents : String,
-        createDay : String
-    }]
-});
 
 var userSchema;
 userSchema = new mongoose.Schema({
@@ -41,7 +26,7 @@ userSchema = new mongoose.Schema({
     google: String,
     github: String,
     vk: String,
-    planets : [planet],
+    planets : [planet.schema],
     favoritePlanet : [mongoose.SchemaTypes.ObjectId],
     favoriteProducts : [mongoose.SchemaTypes.ObjectId]
 

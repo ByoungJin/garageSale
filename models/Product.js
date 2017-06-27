@@ -7,8 +7,8 @@ var schemaOptions = {
     }
 };
 
-var product;
-product = new mongoose.Schema({
+var productSchema;
+productSchema = new mongoose.Schema({
     name : String,
     description : String,
     categoryLevel1 : {
@@ -25,3 +25,6 @@ product = new mongoose.Schema({
     isSoldOut : boolean
 }, schemaOptions);
 
+var Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
