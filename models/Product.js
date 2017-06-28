@@ -22,7 +22,7 @@ productSchema = new mongoose.Schema({
     likeUsers : [mongoose.SchemaTypes.ObjectId],
     picture : [String],
     price : Number,
-    isSoldOut : boolean
+    isSoldOut : { type: Boolean, default: false }
 }, schemaOptions);
 
 var Product = mongoose.model('Product', productSchema);

@@ -24,6 +24,6 @@ planetSchema = new mongoose.Schema({
     }]
 }, schemaOptions);
 
-var Planet = mongoose.model('Product', planetSchema);
+var Planet = mongoose.model('Planet', planetSchema);
 
 module.exports = Planet;

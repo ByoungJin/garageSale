@@ -61,9 +61,10 @@ app.use(function(req, res, next) {
 // Routes
 require('./routes/fcm')(app);
 
-app.use('/user', require('./routes/user'));
-app.use('/contact', require('./routes/contact'));
-app.use('/planet', require('./routes/planet'));
+app.use('/user', require('./routes/userRoute'));
+app.use('/contact', require('./routes/contactRoute'));
+app.use('/planet', require('./routes/planetRoute'));
+app.use('/product', require('./routes/productRoute'));
 
 
 app.get('/', function(req, res) {
