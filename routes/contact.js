@@ -1,6 +1,8 @@
 
 var contactController = require('../controllers/contact'); // Controllers
 
-module.exports = function(app){
-    app.post('/contact', contactController.contactPost);
-};
+var router = require('express').Router();
+
+router.post('/mail', contactController.contactPost);
+
+module.exports = router;

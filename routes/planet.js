@@ -3,6 +3,8 @@
 var userController = require('../controllers/user');
 var planetController = require('../controllers/planet');
 
-module.exports = function(app){
-    app.post('/planet/create', userController.ensureAuthenticated, planetController.planetCreate);
-};
+var router = require('express').Router();
+
+router.post('/create', userController.ensureAuthenticated, planetController.planetCreate);
+
+module.exports = router;

@@ -60,9 +60,11 @@ app.use(function(req, res, next) {
 
 // Routes
 require('./routes/fcm')(app);
-require('./routes/user')(app);
-require('./routes/contact')(app);
-require('./routes/planet.js')(app);
+
+app.use('/user', require('./routes/user'));
+app.use('/contact', require('./routes/contact'));
+app.use('/planet', require('./routes/planet'));
+
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
