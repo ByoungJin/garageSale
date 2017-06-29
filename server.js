@@ -58,9 +58,6 @@ app.use(function(req, res, next) {
   }
 });
 
-// Routes
-require('./routes/fcm')(app);
-
 app.use('/user', require('./routes/userRoute'));
 app.use('/contact', require('./routes/contactRoute'));
 app.use('/planet', require('./routes/planetRoute'));
