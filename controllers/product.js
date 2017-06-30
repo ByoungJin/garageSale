@@ -31,6 +31,11 @@ exports.productCreate = function(req, res, next){
 };
 
 // Read
+/*
+* 가장 가까운 5개의 상점 리스트를 가져옴
+* */
+
+
 
 // Update
 

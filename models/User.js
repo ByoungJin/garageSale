@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
-var planet = require('./Planet');
+//var planet = require('./Planet');
 
 var schemaOptions = {
   timestamps: true,
@@ -26,11 +26,28 @@ userSchema = new mongoose.Schema({
     google: String,
     github: String,
     vk: String,
-    planets : [planet.schema],
+    point : {
+        type: { type: String, default:'Point' }, coordinates: [Number],
+    },
+    planets : [{
+        name : String,
+        address : String,
+
+        description : String,
+        startDay : Date,
+        endDay : Date,
+        products : [mongoose.SchemaTypes.ObjectId],
+        comments : [{
+            userId : mongoose.SchemaTypes.ObjectId,
+            contents : String,
+            createDay : String
+        }]
+    }],
     favoritePlanet : [mongoose.SchemaTypes.ObjectId],
-    favoriteProducts : [mongoose.SchemaTypes.ObjectId]
+    favoriteProducts : [mongoose.SchemaTypes.ObjectId],
 
 }, schemaOptions);
+userSchema.index({ point: '2dsphere' });
 
 userSchema.pre('save', function(next) {
   var user = this;

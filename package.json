@@ -44,7 +44,8 @@
     "vinyl-buffer": "^1.0.0",
     "yargs": "^4.3.2",
     "fcm-node" : "1.2.0",
-    "requirejs" : "2.3.3"
+    "requirejs" : "2.3.3",
+    "mongoose-geojson-schema" : "^2.1.2"
   },
   "devDependencies": {
     "jasmine": "^2.4.1",

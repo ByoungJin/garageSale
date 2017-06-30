@@ -1,6 +1,4 @@
 
-var Planet = require('../models/Planet');
-
 // Create
 exports.planetCreate = function(req, res, next){
     req.assert('name', 'Name cannot be blank').notEmpty();
@@ -13,12 +11,13 @@ exports.planetCreate = function(req, res, next){
         return res.status(401).send({ msg: 'Planet already exist' });
     }
 
-    var planet = new Planet();
+    var planet = {};
 
     planet.name = req.body.name;
     planet.address = req.body.address;
-    planet.latitude = req.body.latitude;
-    planet.longitude = req.body.longitude;
+
+    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
+
     planet.description = req.body.description;
     planet.startDay = new Date(req.body.startDay);
     planet.endDay = new Date(req.body.endDay);
@@ -26,7 +25,7 @@ exports.planetCreate = function(req, res, next){
     req.user.planets.push(planet);
 
     req.user.save(function(err){
-        res.send({planet : planet});
+        res.send({user : req.user});
     });
 
 };
@@ -39,20 +38,25 @@ exports.planetUpdate = function(req, res, next){
 
     if(req.user.planets.length == 0){
         exports.planetCreate(req, res, next);
+        return;
     }
+
 
     var planet = req.user.planets[0];
 
     planet.name = req.body.name;
     planet.address = req.body.address;
-    planet.latitude = req.body.latitude;
-    planet.longitude = req.body.longitude;
+    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
     planet.description = req.body.description;
     planet.startDay = new Date(req.body.startDay);
     planet.endDay = new Date(req.body.endDay);
 
     req.user.save(function(err){
-        res.send({planet : planet});
+        if(err){
+            res.status(401).send({msg : 'Planet Not Updated'}); return;
+        } else {
+            res.send({user: req.user}); return;
+        }
     });
 };
 
