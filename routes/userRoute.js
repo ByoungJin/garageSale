@@ -3,6 +3,7 @@ var userController = require('../controllers/user'); // Controller
 
 var router = require('express').Router();
 
+
 router.put('/account', userController.ensureAuthenticated, userController.accountPut);
 router.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
 router.post('/signup', userController.signupPost);
@@ -15,5 +16,8 @@ router.get('/auth/facebook/callback', userController.authFacebookCallback);
 router.post('/auth/google', userController.authGoogle);
 router.get('/auth/google/callback', userController.authGoogleCallback);
 router.post('/auth/token', userController.ensureAuthenticated, userController.authToken);
+
+router.use('/planet', require('./planetRoute'));
+router.post('/list', userController.getList);
 
 module.exports = router;

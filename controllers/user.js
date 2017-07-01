@@ -437,3 +437,33 @@ exports.authGoogle = function(req, res) {
 exports.authGoogleCallback = function(req, res) {
   res.send('Loading...');
 };
+
+// Read : 현재 위치와 가까운 순으로 Listing
+exports.getList = function(req, res, next){
+    req.assert('longitude', 'longitude cannot be blank').notEmpty();
+    req.assert('latitude', 'latitude cannot be blank').notEmpty();
+    var errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(400).send(errors);
+    }
+
+    User.find({
+        "point" : {
+            $near : {
+                $geometry : {
+                    type : "Point" ,
+                    coordinates : [req.body.longitude, req.body.latitude]
+                }
+            }
+        }
+    },{
+        name : true,
+        email : true,
+        point : true,
+        planet : true
+    }).limit(5).exec(function(err, users){
+        res.send({users : users});
+    });
+
+};
