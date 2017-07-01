@@ -1,4 +1,4 @@
-
+var User = require('../models/User');
 // Create
 exports.planetCreate = function(req, res, next){
     req.assert('name', 'Name cannot be blank').notEmpty();
@@ -11,18 +11,15 @@ exports.planetCreate = function(req, res, next){
         return res.status(401).send({ msg: 'Planet already exist' });
     }
 
-    var planet = {};
+    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
+
+    var planet = req.user.planet;
 
     planet.name = req.body.name;
     planet.address = req.body.address;
-
-    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
-
     planet.description = req.body.description;
     planet.startDay = new Date(req.body.startDay);
     planet.endDay = new Date(req.body.endDay);
-
-    req.user.planets.push(planet);
 
     req.user.save(function(err){
         res.send({user : req.user});
@@ -30,34 +27,66 @@ exports.planetCreate = function(req, res, next){
 
 };
 
-// Read
 
 // Update
 
 exports.planetUpdate = function(req, res, next){
-
-    if(req.user.planets.length == 0){
-        exports.planetCreate(req, res, next);
-        return;
+    req.assert('name', 'Name cannot be blank').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+        return res.status(400).send(errors);
     }
 
+    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
 
-    var planet = req.user.planets[0];
+    var planet = req.user.planet;
 
     planet.name = req.body.name;
-    planet.address = req.body.address;
-    req.user.point.coordinates = [req.body.latitude, req.body.longitude];
+    //planet.address = req.body.address;
     planet.description = req.body.description;
     planet.startDay = new Date(req.body.startDay);
     planet.endDay = new Date(req.body.endDay);
 
     req.user.save(function(err){
+
         if(err){
-            res.status(401).send({msg : 'Planet Not Updated'}); return;
+            res.status(401).send({msg : err.message });
         } else {
-            res.send({user: req.user}); return;
+            res.send({user: req.user});
         }
+
     });
+};
+
+
+// Read : 현재 위치와 가까운 순으로 Listing
+exports.planetRead = function(req, res, next){
+    req.assert('longitude', 'longitude cannot be blank').notEmpty();
+    req.assert('latitude', 'latitude cannot be blank').notEmpty();
+    var errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(400).send(errors);
+    }
+
+    User.find({
+        "point" : {
+            $near : {
+                $geometry : {
+                    type : "Point" ,
+                    coordinates : [req.body.longitude, req.body.latitude]
+                }
+            }
+        }
+    },{
+        name : true,
+        email : true,
+        point : true,
+        planet : true
+    }).limit(5).exec(function(err, users){
+        res.send({users : users});
+    });
+
 };
 
 // Delete

@@ -9,6 +9,7 @@ var router = require('express').Router();
 router.post('/create', userController.ensureAuthenticated, planetController.planetCreate);
 
 // Read
+router.post('/read', planetController.planetRead);
 
 // Update (없으면 추가함)
 router.post('/update', userController.ensureAuthenticated, planetController.planetUpdate);

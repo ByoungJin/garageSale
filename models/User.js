@@ -29,7 +29,7 @@ userSchema = new mongoose.Schema({
     point : {
         type: { type: String, default:'Point' }, coordinates: [Number],
     },
-    planets : [{
+    planet : {
         name : String,
         address : String,
 
@@ -42,7 +42,7 @@ userSchema = new mongoose.Schema({
             contents : String,
             createDay : String
         }]
-    }],
+    },
     favoritePlanet : [mongoose.SchemaTypes.ObjectId],
     favoriteProducts : [mongoose.SchemaTypes.ObjectId],
 
