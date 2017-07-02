@@ -9,7 +9,7 @@ exports.productCreate = function(req, res, next){
         return res.status(400).send(errors);
     }
 
-    if(req.user.planets.length == 0){
+    if(req.user.planet.name == null){
         return res.status(401).send({ msg: 'Planet not exist' });
     }
 
@@ -22,7 +22,7 @@ exports.productCreate = function(req, res, next){
     // product 저장
     product.save(function(err){
         // planets에 product 연결
-        req.user.planets[0].products.push(product.id);
+        req.user.planet.products.push(product.id);
         req.user.save(function(err){
             res.send({product : product});
         });
