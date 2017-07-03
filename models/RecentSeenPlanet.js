@@ -9,8 +9,8 @@ var schemaOptions = {
 
 var recentSeenPlanetSchema;
 recentSeenPlanetSchema = new mongoose.Schema({
-    userId : mongoose.SchemaTypes.ObjectId,
-    productId : mongoose.SchemaTypes.ObjectId
+    userId : {type : mongoose.SchemaTypes.ObjectId, ref : 'User'},
+    productId : {type : mongoose.SchemaTypes.ObjectId, ref : 'Product'}
 }, schemaOptions);
 
 var RecentSeenPlanet = mongoose.model('RecentSeenPlanet', recentSeenPlanetSchema);

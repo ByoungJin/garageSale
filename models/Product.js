@@ -19,7 +19,7 @@ productSchema = new mongoose.Schema({
         name : String,
         picture : String
     },
-    likeUsers : [mongoose.SchemaTypes.ObjectId],
+    likeUsers : [{type : mongoose.SchemaTypes.ObjectId, ref : 'User' }],
     picture : [String],
     price : Number,
     isSoldOut : { type: Boolean, default: false }

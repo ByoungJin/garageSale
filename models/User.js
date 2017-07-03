@@ -36,15 +36,15 @@ userSchema = new mongoose.Schema({
         description : String,
         startDay : Date,
         endDay : Date,
-        products : [mongoose.SchemaTypes.ObjectId],
+        products : [{type : mongoose.SchemaTypes.ObjectId, ref : 'Product'}],
         comments : [{
-            userId : mongoose.SchemaTypes.ObjectId,
+            userId : {type : mongoose.SchemaTypes.ObjectId, ref : 'User'},
             contents : String,
             createDay : String
         }]
     },
-    favoritePlanet : [mongoose.SchemaTypes.ObjectId],
-    favoriteProducts : [mongoose.SchemaTypes.ObjectId],
+    favoritePlanet : [{type : mongoose.SchemaTypes.ObjectId, ref : 'User'}],
+    favoriteProducts : [{type : mongoose.SchemaTypes.ObjectId, ref : 'Product'}],
 
 }, schemaOptions);
 userSchema.index({ point: '2dsphere' });

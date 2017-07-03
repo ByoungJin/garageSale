@@ -462,7 +462,7 @@ exports.getList = function(req, res, next){
         email : true,
         point : true,
         planet : true
-    }).limit(5).exec(function(err, users){
+    }).limit(5).populate('planet.products').exec(function(err, users){
         res.send({users : users});
     });
 
