@@ -18,6 +18,6 @@ router.get('/auth/google/callback', userController.authGoogleCallback);
 router.post('/auth/token', userController.ensureAuthenticated, userController.authToken);
 
 router.use('/planet', require('./planetRoute'));
-router.post('/list', userController.getList);
+router.post('/list', userController.ensureAuthenticated, userController.getList);
 
 module.exports = router;
