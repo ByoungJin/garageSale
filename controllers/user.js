@@ -57,18 +57,18 @@ exports.ensureAuthenticated = function(req, res, next) {
       return res.status(400).send(errors);
     }
 
-    User.findOne({ email: req.body.email }, function(err, user) {
-      if (!user) {
-        return res.status(401).send({ msg: 'The email address ' + req.body.email + ' is not associated with any account. ' +
-        'Double-check your email address and try again.'
-        });
-      }
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if (!isMatch) {
-          return res.status(401).send({ msg: 'Invalid email or password' });
+    User.findOne({ email: req.body.email }).populate('planet.products').exec(function(err, user) {
+        if (!user) {
+            return res.status(401).send({ msg: 'The email address ' + req.body.email + ' is not associated with any account. ' +
+            'Double-check your email address and try again.'
+            });
         }
-        res.send({ token: generateToken(user), user: user.toJSON() });
-      });
+        user.comparePassword(req.body.password, function(err, isMatch) {
+            if (!isMatch) {
+                return res.status(401).send({ msg: 'Invalid email or password' });
+            }
+            res.send({ token: generateToken(user), user: user.toJSON() });
+        });
     });
   };
 
@@ -88,19 +88,19 @@ exports.signupPost = function(req, res, next) {
     return res.status(400).send(errors);
   }
 
-  User.findOne({ email: req.body.email }, function(err, user) {
-    if (user) {
-    return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
-    }
-    user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      point : {coordinates : [0,0]}
-    });
-    user.save(function(err) {
-    res.send({ token: generateToken(user), user: user });
-    });
+  User.findOne({ email: req.body.email }).populate('planet.products').exec(function(err, user) {
+      if (user) {
+          return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
+      }
+      user = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+          point : {coordinates : [0,0]}
+      });
+      user.save(function(err) {
+          res.send({ token: generateToken(user), user: user });
+      });
   });
 };
 
@@ -125,25 +125,25 @@ exports.accountPut = function(req, res, next) {
     return res.status(400).send(errors);
   }
 
-  User.findById(req.user.id, function(err, user) {
-    if ('password' in req.body) {
-      user.password = req.body.password;
-    } else {
-      user.email = req.body.email;
-      user.name = req.body.name;
-      user.gender = req.body.gender;
-      user.location = req.body.location;
-      user.website = req.body.website;
-    }
-    user.save(function(err) {
+  User.findById(req.user.id).populate('planet.products').exec(function(err, user) {
       if ('password' in req.body) {
-        res.send({ msg: 'Your password has been changed.' });
-      } else if (err && err.code === 11000) {
-        res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
+          user.password = req.body.password;
       } else {
-        res.send({ user: user, msg: 'Your profile information has been updated.' });
+          user.email = req.body.email;
+          user.name = req.body.name;
+          user.gender = req.body.gender;
+          user.location = req.body.location;
+          user.website = req.body.website;
       }
-    });
+      user.save(function(err) {
+          if ('password' in req.body) {
+              res.send({ msg: 'Your password has been changed.' });
+          } else if (err && err.code === 11000) {
+              res.status(409).send({ msg: 'The email address you have entered is already associated with another account.' });
+          } else {
+              res.send({ user: user, msg: 'Your profile information has been updated.' });
+          }
+      });
   });
 };
 

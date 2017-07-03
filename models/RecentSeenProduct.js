@@ -11,7 +11,7 @@ var recentSeenProductSchema;
 recentSeenProductSchema = new mongoose.Schema({
     userId : {type : mongoose.SchemaTypes.ObjectId, ref : 'User'},
     productId : {type : mongoose.SchemaTypes.ObjectId, ref : 'Product'}
-}, schemaOptions);
+}, schemaOptions).plugin(require('mongoose-id'));
 
 var RecentSeenProduct = mongoose.model('User', recentSeenProductSchema);
 

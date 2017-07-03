@@ -16,7 +16,7 @@ categorySchema = new mongoose.Schema({
         name : String,
         picture : String
     }]
-}, schemaOptions);
+}, schemaOptions).plugin(require('mongoose-id'));
 
 var Category = mongoose.model('Category', categorySchema);
 

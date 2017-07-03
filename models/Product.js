@@ -23,8 +23,11 @@ productSchema = new mongoose.Schema({
     picture : [String],
     price : Number,
     isSoldOut : { type: Boolean, default: false }
-}, schemaOptions);
+}, schemaOptions).plugin(require('mongoose-id'));
+
 
 var Product = mongoose.model('Product', productSchema);
+
+
 
 module.exports = Product;
