@@ -447,17 +447,21 @@ exports.getList = function(req, res, next){
     if (errors) {
         return res.status(400).send(errors);
     }
-
-    User.find({
-        "point" : {
-            $near : {
-                $geometry : {
-                    type : "Point" ,
-                    coordinates : [req.body.longitude, req.body.latitude]
+//db.articles.find({ $or: [ { “title”: “article01” }, { “writer”: “Alpha” } ] })
+    User.find({$and: [
+        {
+            "point" : {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [req.body.longitude, req.body.latitude]
+                    }
                 }
             }
+        },{
+            "_id": { $ne: req.user._id }
         }
-    },{
+    ]},{
         name : true,
         email : true,
         point : true,
