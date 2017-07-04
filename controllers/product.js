@@ -70,3 +70,10 @@ exports.productUpdate = function(req, res, next){
 
 // Delete
 
+
+// Picture test
+exports.pictureUpload = function(req,res,next) {
+    res.send("test"+req.file);
+};
+
+

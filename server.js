@@ -63,7 +63,7 @@ app.use('/user', require('./routes/userRoute'));
 app.use('/contact', require('./routes/contactRoute'));
 //app.use('/planet', require('./routes/planetRoute'));
 app.use('/product', require('./routes/productRoute'));
-
+app.use('/imeage',express.static('uploads'));
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
