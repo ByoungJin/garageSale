@@ -1,6 +1,6 @@
 
 var userController = require('../controllers/user'); // Controller
-
+var multer  = require('multer');
 var router = require('express').Router();
 
 
@@ -19,5 +19,18 @@ router.post('/auth/token', userController.ensureAuthenticated, userController.au
 
 router.use('/planet', require('./planetRoute'));
 router.post('/list', userController.ensureAuthenticated, userController.getList);
+
+// profile
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/profile/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+var upload = multer({ storage: storage });
+
+router.post('/uploads/profile',upload.single('profile'),userController.ensureAuthenticated,userController.pictureUpload);
 
 module.exports = router;

@@ -471,3 +471,19 @@ exports.getList = function(req, res, next){
     });
 
 };
+
+// Picture test
+exports.pictureUpload = function(req,res,next) {
+    var path = process.env.SERVER_URL+"/upload/profile/"+req.file.path;
+    user = req.user;
+    user.picture = path;
+
+    user.save(function(err) {
+        if(err){
+            console.log(err.message);
+            res.status(401).send({msg : err.message });
+        } else {
+            res.send({"profile": req.user.picture});
+        }
+    });
+};

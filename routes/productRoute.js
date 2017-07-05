@@ -2,7 +2,7 @@
 // Controller
 var userController = require('../controllers/user');
 var productController = require('../controllers/product');
-var multer  = require('multer')
+
 var router = require('express').Router();
 
 
@@ -17,19 +17,5 @@ router.post('/create', userController.ensureAuthenticated, productController.pro
 
 // Delete
 
-
-// Picture test
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
-
-var upload = multer({ storage: storage })
-
-router.post('/picture',upload.single('file'),productController.pictureUpload);
 
 module.exports = router;
