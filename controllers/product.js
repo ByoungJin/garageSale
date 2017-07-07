@@ -69,4 +69,3 @@ exports.productUpdate = function(req, res, next){
 };
 
 // Delete
-
