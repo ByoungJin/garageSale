@@ -59,11 +59,10 @@ app.use(function(req, res, next) {
   }
 });
 
+// 라우팅
 app.use('/user', require('./routes/userRoute'));
 app.use('/contact', require('./routes/contactRoute'));
-//app.use('/planet', require('./routes/planetRoute'));
 app.use('/product', require('./routes/productRoute'));
-
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));

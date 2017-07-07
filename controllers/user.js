@@ -447,7 +447,7 @@ exports.getList = function(req, res, next){
     if (errors) {
         return res.status(400).send(errors);
     }
-//db.articles.find({ $or: [ { “title”: “article01” }, { “writer”: “Alpha” } ] })
+
     User.find({$and: [
         {
             "point" : {
