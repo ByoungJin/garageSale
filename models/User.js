@@ -82,6 +82,33 @@ userSchema.options.toJSON = {
   }
 };
 
+// 비지니스 로직
+userSchema.statics = {
+  list : function (_id, longitude, latitude) {
+      return this.find({$and: [
+        {
+            "point" : {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [longitude, latitude]
+                    }
+                }
+            }
+        },{
+            "_id": { $ne: _id }
+        }
+    ]},{
+        name : true,
+        email : true,
+        point : true,
+        planet : true
+    }).limit(5).populate('planet.products').exec();
+    // return users;
+  }
+
+};
+
 var User = mongoose.model('User', userSchema);
 
 module.exports = User;

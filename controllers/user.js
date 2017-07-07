@@ -6,6 +6,7 @@ var moment = require('moment');
 var request = require('request');
 var qs = require('querystring');
 var User = require('../models/User');
+const co = require('co');
 
 function generateToken(user) {
   var payload = {
@@ -439,7 +440,7 @@ exports.authGoogleCallback = function(req, res) {
 };
 
 // Read : 현재 위치와 가까운 순으로 Listing
-exports.getList = function(req, res, next){
+exports.getList = co.wrap(function* (req, res, next){
     req.assert('longitude', 'longitude cannot be blank').notEmpty();
     req.assert('latitude', 'latitude cannot be blank').notEmpty();
     var errors = req.validationErrors();
@@ -448,29 +449,10 @@ exports.getList = function(req, res, next){
         return res.status(400).send(errors);
     }
 
-    User.find({$and: [
-        {
-            "point" : {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [req.body.longitude, req.body.latitude]
-                    }
-                }
-            }
-        },{
-            "_id": { $ne: req.user._id }
-        }
-    ]},{
-        name : true,
-        email : true,
-        point : true,
-        planet : true
-    }).limit(5).populate('planet.products').exec(function(err, users){
-        res.send({users : users});
-    });
+    var users = yield User.list(req.user._id, req.body.longitude, req.body.latitude);
 
-};
+    res.send({users : users});
+});
 
 // Picture test
 exports.pictureUpload = function(req,res,next) {
