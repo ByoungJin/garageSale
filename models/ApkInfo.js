@@ -20,6 +20,9 @@ apkInfoSchema = new mongoose.Schema({
 apkInfoSchema.statics = {
   listAll: function () {
     return this.find().exec();
+  },
+  listRecentOne : function() {
+    return this.findOne().sort({created_at: -1}).exec();
   }
 };
 

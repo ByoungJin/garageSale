@@ -17,6 +17,13 @@ exports.apkInfoCreate = function (req, res, next) {
 
 // Read All
 exports.apkInfoRead = co.wrap(function* (req, res, next) {
-    var apkInfo = yield ApkInfo.listAll();
-    res.send({apkInfo : apkInfo});
+    var apkInfos = yield ApkInfo.listAll();
+    res.send({apkInfos : apkInfos});
+});
+
+// Redirection Install Url
+exports.apkInstall = co.wrap(function* (req, res, next){
+  var apkInfo = yield ApkInfo.listRecentOne();
+  // res.send({apkInfo : apkInfo.installPageUrl});
+  res.redirect(apkInfo.installPageUrl);
 });
