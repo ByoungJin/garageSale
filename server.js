@@ -22,7 +22,7 @@ var app = express();
 
 mongoose.connect(process.env.MONGODB);
 mongoose.Promise = global.Promise;
-mongoose.connection.on('error', function() {
+mongoose.connection.on('error', function () {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
 });
@@ -32,14 +32,14 @@ app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // 토큰 확인
-  req.isAuthenticated = function() {
+  req.isAuthenticated = function () {
     var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
     try {
       return jwt.verify(token, process.env.TOKEN_SECRET);
@@ -50,9 +50,9 @@ app.use(function(req, res, next) {
 
   if (req.isAuthenticated()) {
     var payload = req.isAuthenticated();
-    User.findById(payload.sub).populate('planet.products').exec(function(err, user) {
-        req.user = user;
-        next();
+    User.findById(payload.sub).populate('planet.products').exec(function (err, user) {
+      req.user = user;
+      next();
     });
   } else {
     next();
@@ -63,25 +63,27 @@ app.use(function(req, res, next) {
 app.use('/user', require('./routes/userRoute'));
 app.use('/contact', require('./routes/contactRoute'));
 app.use('/product', require('./routes/productRoute'));
-app.use('/imeage',express.static('uploads'));
+app.use('/apkinfo', require('./routes/apkInfoRoute'));
+app.use('/imeage', express.static('uploads'));
 
-app.get('/', function(req, res) {
+
+app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));
 });
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.redirect('/#' + req.originalUrl);
 });
 
 // Production error handler
 if (app.get('env') === 'production') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.sendStatus(err.status || 500);
   });
 }
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
 
