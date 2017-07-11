@@ -22,7 +22,7 @@ apkInfoSchema.statics = {
     return this.find().exec();
   },
   listRecentOne : function() {
-    return this.findOne().sort({created_at: -1}).exec();
+    return this.findOne().sort({createdAt: -1}).exec();
   }
 };
 
