@@ -8,6 +8,8 @@ router.put('/account', userController.ensureAuthenticated, userController.accoun
 router.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
 router.post('/signup', userController.signupPost);
 router.post('/login', userController.loginPost);
+router.post('/login/google', userController.googleLoginPost);
+
 router.post('/forgot', userController.forgotPost);
 router.post('/reset/:token', userController.resetPost);
 router.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);

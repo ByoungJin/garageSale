@@ -472,3 +472,36 @@ exports.pictureUpload = function (req, res, next) {
         }
     });
 };
+
+
+exports.googleLoginPost = co.wrap(function*(req, res, next) {
+    req.assert('name', 'Name cannot be blank').notEmpty();
+    req.assert('email', 'Email is not valid').isEmail();
+    req.assert('email', 'Email cannot be blank').notEmpty();
+    req.sanitize('email').normalizeEmail({remove_dots: false});
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(400).send(errors);
+    }
+
+    var user = yield User.getTokenUser(req.body.token);
+
+    if (user) {
+        res.send({token: generateToken(user), user: user.toJSON});
+    }
+    else {
+
+        user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            google: req.body.token,
+            point: {coordinates: [0, 0]}
+        });
+        user.save(function (err) {
+            res.send({token: generateToken(user), user: user});
+        });
+
+    }
+});
