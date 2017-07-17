@@ -7,6 +7,7 @@ var request = require('request');
 var qs = require('querystring');
 var User = require('../models/User');
 const co = require('co');
+var GoogleAuth = require('google-auth-library');
 
 function generateToken(user) {
     var payload = {
@@ -474,31 +475,53 @@ exports.pictureUpload = function (req, res, next) {
 };
 
 
-exports.googleLoginPost = co.wrap(function*(req, res, next) {
-    req.assert('name', 'Name cannot be blank').notEmpty();
-    req.assert('email', 'Email is not valid').isEmail();
-    req.assert('email', 'Email cannot be blank').notEmpty();
-    req.sanitize('email').normalizeEmail({remove_dots: false});
 
+exports.googleToken = function (req,res,next) {
+    req.assert('token', 'Token cannot be blank').notEmpty();
     var errors = req.validationErrors();
 
     if (errors) {
         return res.status(400).send(errors);
     }
 
-    var user = yield User.getTokenUser(req.body.token);
+    var auth = new GoogleAuth;
+    var clientId = process.env.GOOGLE_CLIENTID;
+    var client = new auth.OAuth2(clientId);
+    var IdToken = req.body.token;
+
+    // 토큰을 통해 유효한지, 유효하면 정보를 가져옴.
+    client.verifyIdToken(
+        IdToken,
+        clientId,
+        function (e, login) {
+            if (e) {
+                return res.status(400).send(errors);
+            }
+            req.login = login;
+            next();
+        });
+
+};
+
+exports.googleLoginPost = co.wrap(function*(req, res,login) {
+
+    var account = req.login.getPayload();
+
+    var user = yield User.getGoogleUser(account['email']);
 
     if (user) {
-        res.send({token: generateToken(user), user: user.toJSON});
+        res.send({token: generateToken(user), user: user});
     }
+
     else {
 
         user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            google: req.body.token,
+            name: account['name'],
+            email: account['email'],
+            google: account['email'],
             point: {coordinates: [0, 0]}
         });
+
         user.save(function (err) {
             res.send({token: generateToken(user), user: user});
         });

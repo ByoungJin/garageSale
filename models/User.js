@@ -113,8 +113,8 @@ userSchema.statics = {
     getUser: function (email) {
         return this.findOne({email: email}).populate('planet.products').exec();
     },
-    getTokenUser: function (token) {
-        return this.findOne({google: token}).populate('planet.products').exec();
+    getGoogleUser: function (google) {
+        return this.findOne({google: google}).populate('planet.products').exec();
     }
 
 };
