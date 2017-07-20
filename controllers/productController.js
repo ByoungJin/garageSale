@@ -1,71 +1,70 @@
-
 var Product = require('../models/Product');
+var co = require('co');
 
 // Create
-exports.productCreate = function(req, res, next){
-    req.assert('name', 'Name cannot be blank').notEmpty();
-    var errors = req.validationErrors();
-    if (errors) {
-        return res.status(400).send(errors);
-    }
+exports.productCreate = function (req, res, next) {
+  req.assert('name', 'Name cannot be blank').notEmpty();
+  var errors = req.validationErrors();
+  if (errors) {
+    return res.status(400).send(errors);
+  }
 
-    if(req.user.planet.name == null){
-        return res.status(401).send({ msg: 'Planet not exist' });
-    }
+  if (req.user.planet.name == null) {
+    return res.status(401).send({msg: 'Planet not exist'});
+  }
 
-    var product = new Product();
+  var product = new Product();
 
-    product.name = req.body.name;
-    product.description = req.body.description;
-    product.price = req.body.price;
+  product.name = req.body.name;
+  product.description = req.body.description;
+  product.price = req.body.price;
 
-    // product 저장
-    product.save(function(err){
-        // planets에 product 연결
-        req.user.planet.products.push(product.id);
-        req.user.save(function(err){
-            res.send({product : product});
-        });
+  // product 저장
+  product.save(function (err) {
+    // planets에 product 연결
+    req.user.planet.products.push(product.id);
+    req.user.save(function (err) {
+      res.send({product: product});
     });
+  });
 
 };
 
 // Read
 /*
-* 가장 가까운 5개의 상점 리스트를 가져옴
-* */
+ * 가장 가까운 5개의 상점 리스트를 가져옴
+ * */
 
 
 
 // Update
 
-exports.productUpdate = function(req, res, next){
-/*
-    req.assert('name', 'Name cannot be blank').notEmpty();
-    var errors = req.validationErrors();
-    if (errors) {
-        return res.status(400).send(errors);
-    }
+exports.productUpdate = co.wrap(function*(req, res, next) {
 
+  req.assert('id', 'id cannot be blank').notEmpty();
+  var errors = req.validationErrors();
+  if (errors) {
+    return res.status(400).send(errors);
+  }
 
-    if(req.user.products.length == 0){
-        exports.productCreate(req, res, next);
-    }
+  // id로 검색
+  var product = yield Product.getProduct(req.body.id);
 
-    var product = req.user.products[0];
+  if (product == null) {
+    return res.status(400).send({msg: "Could not find product"});
+  }
 
+  if (req.body.name)
     product.name = req.body.name;
-    product.address = req.body.address;
-    product.latitude = req.body.latitude;
-    product.longitude = req.body.longitude;
+  if (req.body.description)
     product.description = req.body.description;
-    product.startDay = new Date(req.body.startDay);
-    product.endDay = new Date(req.body.endDay);
+  if (req.body.price)
+    product.price = req.body.price;
 
-    req.user.save(function(err){
-        res.send({product : product});
-    });
-    */
-};
+  product.save(function (err) {
+    res.send({product: product});
+  });
+
+});
 
 // Delete

@@ -13,7 +13,7 @@ router.post('/create', userController.ensureAuthenticated, productController.pro
 // Read
 
 // Update (없으면 추가함)
-//router.post('/update', userController.ensureAuthenticated, productController.productUpdate);
+router.post('/update', userController.ensureAuthenticated, productController.productUpdate);
 
 // Delete
 

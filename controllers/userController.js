@@ -6,7 +6,7 @@ var moment = require('moment');
 var request = require('request');
 var qs = require('querystring');
 var User = require('../models/User');
-const co = require('co');
+var co = require('co');
 var GoogleAuth = require('google-auth-library');
 
 function generateToken(user) {
