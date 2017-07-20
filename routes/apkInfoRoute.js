@@ -1,5 +1,5 @@
 // Controller
-var apkInfoController = require('../controllers/apkInfo');
+var apkInfoController = require('../controllers/apkInfoController');
 
 var router = require('express').Router();
 

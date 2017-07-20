@@ -1,5 +1,5 @@
 
-var userController = require('../controllers/user'); // Controller
+var userController = require('../controllers/userController'); // Controller
 var multer  = require('multer');
 var router = require('express').Router();
 

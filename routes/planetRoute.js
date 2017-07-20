@@ -1,7 +1,7 @@
 
 // Controller
-var userController = require('../controllers/user');
-var planetController = require('../controllers/planet');
+var userController = require('../controllers/userController');
+var planetController = require('../controllers/planetController');
 
 var router = require('express').Router();
 
