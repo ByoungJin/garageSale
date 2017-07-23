@@ -27,7 +27,8 @@
           content : '이거 정말 완소 템',
           createDay : "2017-06-01 : 15:23:00"
         }
-      ]
+      ],
+      planetShape : ObjectID('PlanetShape')
     }
   ],
   favoritePlanet : [ObjectID('Planet1'),ObjectID('Planet2')], // planet가 여러개일때를 고려해서 식별하는 방법이 뭘까? 아니면 Planet 따로 콜렉션 뺄까? > 일단 유저 아이디 기반으로.
@@ -85,4 +86,10 @@
 {
   userId : ObjectID('User1'),
   planetId : ObjectID('Planet1')
+}
+
+// PlanetShape : 행성 모양
+{
+  name : {type: String, unique: true},
+  picture : {type: String, unique: true}
 }

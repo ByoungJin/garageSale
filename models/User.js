@@ -41,7 +41,8 @@ userSchema = new mongoose.Schema({
             userId: {type: mongoose.SchemaTypes.ObjectId, ref: 'User'},
             contents: String,
             createDay: String
-        }]
+        }],
+        planetShape: {type: mongoose.SchemaTypes.ObjectId, ref: 'PlanetShape'}
     },
     favoritePlanet: [{type: mongoose.SchemaTypes.ObjectId, ref: 'User'}],
     favoriteProducts: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Product'}],
