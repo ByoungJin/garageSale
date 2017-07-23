@@ -16,6 +16,7 @@ productSchema = new mongoose.Schema({
   likeUsers: [{type: mongoose.SchemaTypes.ObjectId, ref: 'User'}],
   picture: [String],
   price: Number,
+  tag : [String],
   isSoldOut: {type: Boolean, default: false}
 }, schemaOptions).plugin(require('mongoose-id'));
 
