@@ -45,7 +45,7 @@ userSchema = new mongoose.Schema({
     },
     favoritePlanet: [{type: mongoose.SchemaTypes.ObjectId, ref: 'User'}],
     favoriteProducts: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Product'}],
-
+    favoriteCategory: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Category'}]
 }, schemaOptions).plugin(require('mongoose-id'));
 userSchema.index({point: '2dsphere'});
 
