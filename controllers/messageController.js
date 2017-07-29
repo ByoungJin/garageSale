@@ -31,7 +31,7 @@ exports.userList = co.wrap(function*(req, res) {
 
 // Read Message List
 exports.messageList = co.wrap(function*(req, res) {
-  const messages = yield Message.messageList(req.user.id, req.params.id);
+  const messages = yield Message.messageList(req.user.email, req.params.email);
   res.send({messages: messages});
 });
 

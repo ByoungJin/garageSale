@@ -11,7 +11,7 @@ router.post('/create', userController.ensureAuthenticated, messageController.mes
 router.get('/list', userController.ensureAuthenticated, messageController.userList);
 
 // Read Message List With One User
-router.get('/list/:id', userController.ensureAuthenticated, messageController.messageList);
+router.get('/list/:email', userController.ensureAuthenticated, messageController.messageList);
 
 // Delete
 router.post('/delete', userController.ensureAuthenticated, messageController.messageDelete);
