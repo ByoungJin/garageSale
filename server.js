@@ -64,6 +64,7 @@ app.use('/user', require('./routes/userRoute'));
 app.use('/contact', require('./routes/contactRoute'));
 app.use('/product', require('./routes/productRoute'));
 app.use('/apkinfo', require('./routes/apkInfoRoute'));
+app.use('/message', require('./routes/messageRoute'));
 app.use('/imeage', express.static('uploads'));
 
 
