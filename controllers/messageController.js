@@ -37,7 +37,7 @@ exports.messageList = co.wrap(function*(req, res) {
 
 // Delete
 exports.messageDelete = co.wrap(function*(req, res) {
-  const message = yield Message.findOne();
+  const message = yield Message.readOne(req.body.messageId);
   message.remove(function(){
     res.send("remove success");
   });

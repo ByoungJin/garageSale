@@ -51,8 +51,8 @@ messageSchema.statics = {
       ]
     }).sort({'createdAt': 1}).exec();
   },
-  findOne: function (messageId) {
-    return this.findOne(messageId);
+  readOne: function (messageId) {
+    return this.findOne({_id: new mongoose.Types.ObjectId(messageId)}).exec();
   }
 
 };
