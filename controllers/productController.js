@@ -9,7 +9,7 @@ exports.productCreate = function (req, res, next) {
     return res.status(400).send(errors);
   }
 
-  if (req.user.planet.name == null) {
+  if (!req.user.planet.name) {
     return res.status(401).send({msg: 'Planet not exist'});
   }
 
@@ -48,9 +48,9 @@ exports.productUpdate = co.wrap(function*(req, res, next) {
   }
 
   // id로 검색
-  var product = yield Product.getProduct(req.body.id);
+  var product = yield Product.readOne(req.body.id);
 
-  if (product == null) {
+  if (!product) {
     return res.status(400).send({msg: "Could not find product"});
   }
 
@@ -68,3 +68,12 @@ exports.productUpdate = co.wrap(function*(req, res, next) {
 });
 
 // Delete
+exports.productDelete = co.wrap(function*(req, res) {
+  const product = yield Product.readOne(req.body.productId);
+  if (!product) {
+    return res.status(400).send({msg: "Could not find product"});
+  }
+  product.remove(function(){
+    res.send({msg : "remove success"});
+  });
+});

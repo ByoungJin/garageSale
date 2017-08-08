@@ -26,19 +26,37 @@ exports.messageCreate = function (req, res) {
 // Read User List
 exports.userList = co.wrap(function*(req, res) {
   const messages = yield Message.userList(req.user.email);
+
+  if (!messages) {
+    return res.status(401).send({
+      msg: 'Could not find Messages'
+    });
+  }
+
   res.send({messages: messages});
 });
 
 // Read Message List
 exports.messageList = co.wrap(function*(req, res) {
   const messages = yield Message.messageList(req.user.email, req.params.email);
+  if (!messages) {
+    return res.status(401).send({
+      msg: 'Could not find Messages'
+    });
+  }
+
   res.send({messages: messages});
 });
 
 // Delete
 exports.messageDelete = co.wrap(function*(req, res) {
   const message = yield Message.readOne(req.body.messageId);
+  if (!message) {
+    return res.status(401).send({
+      msg: 'Could not find Message'
+    });
+  }
   message.remove(function(){
-    res.send("remove success");
+    res.send({msg : "remove success"});
   });
 });

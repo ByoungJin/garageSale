@@ -16,6 +16,7 @@ router.post('/create', userController.ensureAuthenticated, productController.pro
 router.post('/update', userController.ensureAuthenticated, productController.productUpdate);
 
 // Delete
+router.post('/delete', userController.ensureAuthenticated, productController.productDelete);
 
 
 module.exports = router;

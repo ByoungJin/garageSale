@@ -21,7 +21,7 @@ productSchema = new mongoose.Schema({
 }, schemaOptions).plugin(require('mongoose-id'));
 
 productSchema.statics = {
-  getProduct : function (id) {
+  readOne : function (id) {
     return this.findOne({_id : id}).exec();
   }
 };
