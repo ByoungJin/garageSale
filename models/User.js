@@ -109,15 +109,36 @@ userSchema.statics = {
             point: true,
             planet: true
         }).limit(5).populate('planet.products').exec();
-        // return users;
     },
     getUser: function (email) {
         return this.findOne({email: email}).populate('planet.products').exec();
     },
     getGoogleUser: function (google) {
         return this.findOne({google: google}).populate('planet.products').exec();
+    },
+    getOne: function(_id, longitude, latitude, index){
+      return this.findOne({
+        $and: [
+          {
+            "point": {
+              $near: {
+                $geometry: {
+                  type: "Point",
+                  coordinates: [longitude, latitude]
+                }
+              }
+            }
+          }, {
+            "_id": {$ne: _id}
+          }
+        ]
+      }, {
+        name: true,
+        email: true,
+        point: true,
+        planet: true
+      }).limit(index).skip(index-1).populate('planet.products').exec();
     }
-
 };
 
 var User = mongoose.model('User', userSchema);

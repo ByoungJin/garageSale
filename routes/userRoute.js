@@ -21,6 +21,7 @@ router.post('/auth/token', userController.ensureAuthenticated, userController.au
 
 router.use('/planet', require('./planetRoute'));
 router.post('/list', userController.ensureAuthenticated, userController.getList);
+router.post('/getone', userController.ensureAuthenticated, userController.getOne);
 
 // profile
 var storage = multer.diskStorage({

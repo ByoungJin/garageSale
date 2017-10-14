@@ -458,6 +458,24 @@ exports.getList = co.wrap(function*(req, res, next) {
     res.send({users: users});
 });
 
+// Read : 현재 위치와 n번째 가까운 유저 Get
+exports.getOne = co.wrap(function*(req, res, next) {
+  req.assert('longitude', 'longitude cannot be blank').notEmpty();
+  req.assert('latitude', 'latitude cannot be blank').notEmpty();
+  req.assert('index', 'latitude cannot be blank').notEmpty();
+  var errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(400).send(errors);
+  }
+
+  var user = yield User.getOne(req.user._id, req.body.longitude, req.body.latitude, req.body.index);
+
+  res.send({user: user});
+});
+
+
+
 // Picture test
 exports.pictureUpload = function (req, res, next) {
     var path = process.env.SERVER_URL + "/upload/profile/" + req.file.path;
@@ -473,8 +491,6 @@ exports.pictureUpload = function (req, res, next) {
         }
     });
 };
-
-
 
 exports.googleToken = function (req,res,next) {
     req.assert('token', 'Token cannot be blank').notEmpty();
